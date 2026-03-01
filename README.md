@@ -3,8 +3,8 @@ scRNAseq-analysis/
 ├── README.md
 │
 ├── data/
-│   ├── raw/            # (optional, if allowed)
-│   └── processed/      # filtered Seurat object
+│   ├── raw/            
+│   └── processed/      
 │
 ├── scripts/
 │   ├── 01_QC.R
