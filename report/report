@@ -1,1 +1,45 @@
+Q1. What QC thresholds did you choose and why?
 
+Quality control was performed using three standard metrics: number of detected genes per cell (nFeature_RNA), total UMI counts (nCount_RNA), and percentage of mitochondrial gene expression (percent.mt).
+
+Violin plots and scatter plots were used to visualize the distribution of these metrics before filtering. Cells with very low gene counts clustered at the lower end of nFeature_RNA and nCount_RNA, indicating poor-quality or empty droplets. Cells with elevated mitochondrial gene expression showed characteristics of stressed or dying cells.
+
+Based on these observations, cells were retained if they met the following criteria:
+
+nFeature_RNA > 200 to remove low-quality cells with insufficient gene detection
+
+nFeature_RNA < 6000 to exclude potential doublets with abnormally high gene counts
+
+percent.mt < 15% to remove stressed or dying cells
+
+Post-filtering violin plots showed a more homogeneous distribution of QC metrics, confirming effective removal of low-quality cells while retaining biologically meaningful populations.
+
+Q2. How stable are your clusters when varying PCs or resolution?
+
+Principal Component Analysis (PCA) was used for dimensionality reduction. The elbow plot of standard deviation across PCs revealed a sharp decline in variance contribution after the first 10 components, indicating diminishing returns from higher PCs. Therefore, the first 10 PCs were selected for downstream analyses.
+
+Clustering was performed across multiple resolution parameters (0.4, 0.6, and 0.8). At lower resolution (0.4), distinct transcriptional populations were merged, whereas higher resolution (0.8) resulted in over-fragmentation of clusters. A resolution of 0.6 provided the best balance between cluster separation and biological interpretability.
+
+UMAP visualizations confirmed that cluster structure remained largely consistent across small changes in resolution, demonstrating overall clustering stability.
+
+Q3. Assign cell type identities to clusters using marker genes and evidence.
+
+Cluster-specific marker genes were identified using FindAllMarkers. Marker expression patterns were visualized using dot plots and heatmaps.
+
+Clusters expressing epithelial markers such as EPCAM were annotated as epithelial or neoplastic epithelial cells. Subclusters with elevated expression of proliferation-associated genes were labeled as proliferative progenitor-like populations, while clusters enriched for differentiation-associated genes were annotated as differentiated epithelial cells. A subset of cells expressing stemness-associated markers was annotated as stem-like epithelial cells.
+
+The strong correspondence between unsupervised clusters and canonical marker gene expression supports the biological validity of the assigned cell type identities.
+
+Q4. Perform differential expression between two biologically meaningful groups and interpret results.
+
+Differential expression analysis was performed between Proliferative Epithelial Progenitor cells and Differentiated Epithelial Cells using FindMarkers.
+
+The analysis identified genes significantly upregulated in proliferative cells, including those associated with cell cycle progression and transcriptional activity, while differentiated epithelial cells showed enrichment of genes involved in specialized epithelial functions.
+
+Volcano plots highlighted genes with both high log2 fold change and strong statistical significance, demonstrating clear transcriptional differences between these two biologically distinct states. These results indicate a shift from proliferative programs to differentiated functional programs along epithelial cell maturation.
+
+Q5. Provide one study-linked insight.
+
+A rare cluster annotated as Stem-like Epithelial Cells was identified. This population comprised a small fraction of the total cells but exhibited distinct transcriptional profiles, separating clearly on the UMAP.
+
+The presence of this rare cluster suggests intratumoral heterogeneity and may represent a progenitor or therapy-resistant population. Identifying such rare cell states highlights the strength of single-cell RNA-seq in resolving biologically meaningful subpopulations that are not detectable in bulk transcriptomic analyses
